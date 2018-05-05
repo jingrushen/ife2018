@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用 animate.css 制作流畅交互动效</title>
+    <link rel="stylesheet" href="./index_files/animate.css">
+    <link rel="stylesheet" href="./index_files/re-animate.css">
+    <style type="text/css">
+        html {
+            font-size: 62.5%;
+            font-family: 'Open Sans', 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            font-size: 1.8em;
+            line-height: 3;
+            background-color: #eeeeee;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            margin-bottom: 3rem;
+            line-height: 1.5;
+            font-weight: 800;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        .site-container {
+            max-width: 320px;
+            margin: 10px auto;
+            padding-left: 0.6em;
+            padding-right: 0.6em;
+            padding-top: 3%;
+            padding-bottom: 3%;
+        }
+
+        @media screen and (min-width: 60.063em) {
+            .site-container {
+                max-width: 400px;
+            }
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.24), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+            border-radius: 2px;
+            padding: 1em 1.5em;
+        }
+
+        .form__wrapper {
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            margin-bottom: 1.6rem;
+            width: 100%;
+            vertical-align: top;
+        }
+
+        .form__wrapper__submit {
+            padding: 1.6rem 0;
+        }
+
+        .form__input {
+            display: block;
+            position: relative;
+            margin-top: 1em;
+            padding: 0.84em 0;
+            width: 100%;
+            box-sizing: border-box;
+            color: #444;
+            font-size: 1.6rem;
+            outline: 0;
+            border: none;
+            border-bottom: solid 1px #ddd;
+        }
+
+        .form__input:focus {
+            background-position: 0 0;
+            color: #444;
+        }
+
+        .form__label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 0;
+            width: 100%;
+            height: calc(99%);
+            text-align: left;
+            pointer-events: none;
+            color: #999;
+        }
+
+        .form__label__content {
+            position: absolute;
+        }
+
+        .form__filled {
+            width: 100%;
+            height: 2px;
+            background: #2196f3;
+            position: absolute;
+            bottom: 0;
+            display: none;
+            animation-duration: 0.3s;            
+        }
+        .form__input__focus~.form__label .form__label__content {   
+            top: -10px;
+            font-size: 0.7em;
+            font-weight: 600;  
+            animation-duration: 0.6s;
+        }
+
+        .btn {
+            width: 100%;
+            display: inline-block;
+            padding: 0.7em 1.5em;
+            border-radius: 2px;
+            background-color: #2196f3;
+            color: #fff;
+            border: 0;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 400;
+            font-size: 1.6rem;
+            box-shadow: 0 1px 3px 0 rgba(3, 30, 51, 0.24), 0 1px 2px 0 rgba(3, 30, 51, 0.12);
+            transition: all 0.2s ease;
+        }
+
+        .btn:focus,
+        .btn:hover {
+            background-color: #0d8aee;
+        }
+        .btn {
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-delay: 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <section class="site-container">
+        <section class="card">
+            <h3>Login</h3>
+            <form>
+                <div class="form__wrapper" data-wow-delay="0.5s">
+                    <input type="email" class="form__input" id="email" name="email">
+                    <label class="form__label" for="email">
+                        <span class="form__label__content">Email</span>
+                        <div class="form__filled"></div>
+                    </label>
+                </div>
+                <div class="form__wrapper" data-wow-delay="0.6s">
+                    <input type="password" class="form__input" id="password" name="password">
+                    <label class="form__label" for="password">
+                        <span class="form__label__content">Password</span>
+                        <div class="form__filled"></div>
+                    </label>
+                </div>
+                <div class="form__wrapper__submit pulse infinite" data-wow-delay="0.7s">
+                    <div class="form__input__submit">
+                        <button type="submit" name="submit" class="btn">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </section>
+    <script src="./index_files/jquery-1.10.2.min_65682a2.js"></script>
+    <script>
+        $.fn.extend({
+                animateCss: function (animationName, callback) {
+                    var animationEnd = (function (el) {
+                        var animations = {
+                            animation: 'animationend',
+                            OAnimation: 'oAnimationEnd',
+                            MozAnimation: 'mozAnimationEnd',
+                            WebkitAnimation: 'webkitAnimationEnd',
+                        };
+
+                        for (var t in animations) {
+                            if (el.style[t] !== undefined) {
+                                return animations[t];
+                            }
+                        }
+                    })(document.createElement('div'));
+
+                    this.addClass('animated ' + animationName).one(animationEnd, function () {
+                
+                        $(this).removeClass('animated ' + animationName);
+
+                        if (typeof callback === 'function') callback();
+                    });
+
+                    return this;
+                },
+            });
+        $(function () {
+            $('.form__input').focus(function () {
+                if (!$(this).val()) {
+                    $(this).addClass('form__input__focus').parent().find('.form__label__content').animateCss('slideInUp');
+                }
+                $(this).parent().find('.form__filled').toggle();
+                $(this).parent().find('.form__filled').animateCss('slideInLeft');
+                $('button[type=submit]').removeClass('animated bounceIn');
+            })
+            $('.form__input').blur(function () {
+                if (!$(this).val()) {
+                    $(this).removeClass('form__input__focus')
+                }
+                let _t = this;
+                $(this).parent().find('.form__filled').animateCss('slideOutLeft', function () {
+                    $(_t).parent().find('.form__filled').toggle();
+                });
+                if (!Array.from($('.form__input')).some((v) => !v.value)) {
+                    $('button[type=submit]').animateCss('bounceIn');
+                }
+            })
+        })
+    </script>
+</body>
+</html>
