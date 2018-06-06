@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .showcard {
+            margin: 0 auto;
+            width: 250px;
+            height: 350px;
+            position: relative;
+            perspective: 800px;
+        }
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: transform .3s linear 0s;
+            backface-visibility: hidden;
+        }
+        .front {
+            background: url('./正面.jpg');     
+        }
+        .back {
+            background: url('./反面.jpg');
+            transform: rotateY(-180deg);
+
+        }
+        .showcard:hover .front {
+            transform: rotateY(180deg);
+        }
+        .showcard:hover .back {
+            transform: rotateY(0deg);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="showcard">
+        <div class="card back"></div>
+        <div class="card front"></div>
+    </div>
+</body>
+</html>
